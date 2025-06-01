@@ -26,6 +26,7 @@ angular_dir = 0.0
 bat_volts = 0.0
 
 #imu data
+imu_mounting_offset = 0.05 #currently assumed
 imu_raw = [0.0, 0.0, 0.0]
 imu_data = [0.0, 0.0, 0.0]
 imu_calibration = [0.0, 0.0, 0.0]
@@ -113,8 +114,12 @@ async def run_io():
         imu_data[i] = imu_raw[i] - imu_calibration[i]
         i += 1
     
-    #update angular velocity
-    angular_vel = math.sqrt(abs(imu_data[0]) / 0.05) * (60 / (2*math.pi)) #find angular velocity 
+    #update angular velocity, chop bottom 100rpm off due to noise
+    angular_vel_tmp = math.sqrt(abs(imu_data[0]) / imu_mounting_offset) * (60 / (2*math.pi)) #find angular velocity 
+    if angular_vel_tmp > 100:
+        angular_vel = angular_vel_tmp
+    else:
+        angular_vel = 0
 
 #use to receive data
 async def receive():

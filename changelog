@@ -1,0 +1,8 @@
+5.31.25
+    Started github repo.
+    Built packet radio structure similar to transmitter.
+    Cleaned uneeded functions from transmitter.
+    Added H3LIS331 accelerometer.
+    Added extra functions in IO to update accelerometer.
+    Added calibration subroutine for LIS331 and tuned IIR filter.
+    Added transformation for X axis on LIS331 to extrapolate angular velocity. Used assumed offset distance.

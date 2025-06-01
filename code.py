@@ -195,19 +195,22 @@ async def main():
         #always add transmit and io checks to schedule
         tasks.append(run_io())
 
-        #sample radio at 10hz
-        if time_now - radio_last_time >= 0.10:
+        #sample radio at 100hz
+        if time_now - radio_last_time >= 0.01:
             radio_last_time = time.monotonic()
             #tasks.append(receive())
             tasks.append(transmit())
             print(f"speed: {angular_vel} rpm")
+            print(f"loop time: {time_now - loop_last_time}")
+        
+
 
         #blink at 1hz
         if time_now - blink_last_time >= 1:
             blink_last_time = time.monotonic()
-            tasks.append(blink())
+            #tasks.append(blink())
 
-        #print(f"Loop time: {time_now - loop_last_time}")
+        #print(f"loop time: {time_now - loop_last_time}")
         loop_last_time = time.monotonic()
 
         #gather tasks
